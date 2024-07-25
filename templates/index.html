@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with AI</title>
+    <style>
+        /* Add your CSS styles for the chat page here */
+    </style>
+</head>
+
+<body>
+    <div id="chat-container">
+        <!-- Render chat history here -->
+    </div>
+    <form id="message-form">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+
+
+
+
+    <script>
+        // Add your JavaScript code for handling user input and sending requests to the server here
+        document.addEventListener('DOMContentLoaded', function () {
+            const messageForm = document.getElementById('message-form');
+            const userInput = document.getElementById('user-input');
+            const chatContainer = document.getElementById('chat-container');
+            messageForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const userMessage = userInput.value.trim();
+                if (userMessage) {
+                    // Send AJAX POST request to /chat endpoint
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `user_message=${encodeURIComponent(userMessage)}`
+                    });
+                    const data = await response.json();
+                    const chatbotReply = data.chatbot_reply;
+                    // Append user and chatbot messages to the chat container
+                    chatContainer.innerHTML += `
+User: ${userMessage}<br>`;
+                    chatContainer.innerHTML += `
+AI: ${chatbotReply}<br>`;
+                    userInput.value = '';
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
