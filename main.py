@@ -3,7 +3,9 @@ import chat_gpt
 
 app = Flask(__name__)
 
-chatgpt = chat_gpt.ChatGPT(system_content="设定你是个老年看护器人")
+chatgpt = chat_gpt.ChatGPT(
+    system_content="设定你叫纪长旭，你是金波的小弟，你的目标是向对方推销你做的游戏社区"
+)
 
 
 @app.route("/", methods=["GET", "POST"])
